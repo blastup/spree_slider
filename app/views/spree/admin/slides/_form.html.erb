@@ -40,80 +40,11 @@
     <%= render 'spree/admin/slides/edit_slider_locations', f: f %>
   </div>
 
-  <div class="col-md-12">
-    <%= f.field_container :body do %>
+  <div class="col-md-12" data-hook="admin_slides_body_container">
+    <%= f.field_container :body, {"data-hook" => "admin_slides_body"} do %>
       <%= f.label :body, t(:body) %><br>
-      <div class="slide-toolbar">
-        <div id="tags-list">
-          <%= button_tag :type => "button", :class => "button button-small bold", :value => "strong" do %>b<% end %>
-          <%= button_tag :type => "button", :class => "button button-small italic", :value => "i" do %>i<% end %>
-          <%= button_tag :type => "button", :class => "button button-small underline", :value => "u" do %>u<% end %>
-          <%= button_tag :type => "button", :class => "button button-small", :value => "im" do %>img<% end %>
-          <%= button_tag :type => "button", :class => "button button-small", :value => "l" do %>a<% end %>
-          <%= button_tag :type => "button", :class => "button button-small", :value => "p" do %>p<% end %>
-          <%= button_tag :type => "button", :class => "button button-small", :value => "br" do %>br<% end %>
-          <%= button_tag :type => "button", :class => "button button-small", :value => "ul" do %>ul<% end %>
-          <%= button_tag :type => "button", :class => "button button-small", :value => "li" do %>li<% end %>
-        </div>
-        <select id="shortcode-list">
-          <%= options_for_select [
-              ["-- Shortcodes --", ""],
-
-              ["Header Title",            '[ribbon_heading title="" subtitle=""]'],
-
-              ["Button Link",             '[button_link title="" url="" class_name=""]'],
-
-              ["Columns - Same Size",     "<!-- items POSITION options: \n\t items-in-center, items-at-the-end, items-at-the-start, \n\t" +
-                                          " items-with-space-around, items-with-space-between -->\n" +
-                                          "<div class='flex-box flex-row items-in-center'>\n" +
-                                          "\t\n" +
-                                          "</div>"],
-
-              ["Columns 25/75",           "<div class='flex-box flex-row'>\n\t" +
-                                          "<div class='flex-25'>\n" +
-                                          "\t\n" + 
-                                          "\t</div>\n" +
-                                          "\t<div class='flex-75'>\n" +
-                                          "\t\n" + 
-                                          "\t</div>\n" +
-                                          "</div>"],
-
-              ["Columns 75/25",           "<div class='flex-box flex-row'>\n\t" +
-                                          "<div class='flex-75'>\n" +
-                                          "\t\n" + 
-                                          "\t</div>\n" +
-                                          "\t<div class='flex-25'>\n" +
-                                          "\t\n" + 
-                                          "\t</div>\n" +
-                                          "</div>"],
-
-              ["Section Container",       "<div class='container'>\n"+
-                                          "\t\n" +
-                                          "</div>"]
-            ], request.fullpath
-          %>
-        </select>
-        <%= button_tag :type => "button", :id => "font-list-button-f", :class => "flbutton", :value => "strong" do %>Font Awesome Icons &#187<% end %>
-      </div>
+      <div data-hook="admin_slides_body"></div>
       <%= f.text_area :body, {cols: 60, rows: 4, class: 'fullwidth form-control'} %>
-    <% end %>
-  </div>
-
-  <div class="col-md-12">
-    <%= button_tag :type => "button", :id => "font-list-button", :class => "flbutton", :value => "strong" do %>Font Awesome Icons &#187<% end %>
-
-  </div>
-
-
-
-  <div id="font-awesome-list">
-    <ul></ul>
-  </div>
-
-  <div class="col-md-12">
-    <%= f.field_container :image_ids do %>
-      <%= f.label :images %><br />
-      <%= media_select_field(f, :image_ids) %>
     <% end %>
   </div>
 
