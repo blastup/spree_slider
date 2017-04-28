@@ -28,13 +28,13 @@ class Spree::Slide < ActiveRecord::Base
     slide_image = self.images.first
     image = nil
     if product.present? && product.images.any?
-      image = product.images
+      image = product.images.first
     elsif slide_image
       image = slide_image
     end
   end
 
   def slide_image_url
-    slide_image ? slide_image.product_url : nil
+    slide_image ? slide_image.attachment.url : nil
   end
 end
