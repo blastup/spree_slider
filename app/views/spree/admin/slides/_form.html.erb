@@ -6,11 +6,20 @@
     <% end %>
   </div>
 
-  <div class="col-md-10">
+  <div class="col-md-5">
     <div class="field checkbox">
       <label>
         <%= f.check_box :published, class: "form-control" %>
         <%= t(:published) %>
+      </label>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="field checkbox">
+      <label>
+        <%= f.check_box :is_mobile, class: "form-control" %>
+        <%= t(:is_mobile) %>
       </label>
     </div>
   </div>

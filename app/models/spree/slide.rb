@@ -35,6 +35,6 @@ class Spree::Slide < ActiveRecord::Base
   end
 
   def slide_image_url
-    slide_image ? slide_image.attachment.url : nil
+    slide_image ? slide_image.attachment.url('original') : nil
   end
 end
