@@ -6,11 +6,20 @@
     <% end %>
   </div>
 
-  <div class="col-md-10">
+  <div class="col-md-5">
     <div class="field checkbox">
       <label>
         <%= f.check_box :published, class: "form-control" %>
         <%= t(:published) %>
+      </label>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="field checkbox">
+      <label>
+        <%= f.check_box :is_mobile, class: "form-control" %>
+        <%= t(:is_mobile) %>
       </label>
     </div>
   </div>
@@ -40,29 +49,11 @@
     <%= render 'spree/admin/slides/edit_slider_locations', f: f %>
   </div>
 
-  <div class="col-md-12">
-    <%= f.field_container :body do %>
+  <div class="col-md-12" data-hook="admin_slides_body_container">
+    <%= f.field_container :body, {"data-hook" => "admin_slides_body"} do %>
       <%= f.label :body, t(:body) %><br>
+      <div data-hook="admin_slides_body"></div>
       <%= f.text_area :body, {cols: 60, rows: 4, class: 'fullwidth form-control'} %>
-    <% end %>
-  </div>
-
-  <div class="col-md-6">
-    <%= f.field_container :image do %>
-      <%= f.label :image, t(:image) %> <i>(<%= t('spree_slider.image_tip') %>)</i><br>
-      <%= f.file_field :image %>
-    <% end %>
-  </div>
-
-  <div class="col-md-6">
-    <%= f.field_container :image do %>
-      <% if f.object.image? %>
-        <p>
-          <%= label_tag t(:preview) %>
-          <br>
-          <%= image_tag f.object.image, class: 'img-responsive' %>
-        </p>
-      <% end %>
     <% end %>
   </div>
 

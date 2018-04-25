@@ -13,6 +13,7 @@
     <th><%= Spree.t(:name) %></th>
     <th><%= Spree.t(:product) %></th>
     <th><%= Spree.t(:published) %></th>
+    <th><%= Spree.t(:slide_locations) %></th>
     <th data-hook="admin_slides_index_header_actions" class="actions"></th>
   </tr>
   </thead>
@@ -22,10 +23,23 @@
       <td class="no-border">
         <span class="handle"></span>
       </td>
-      <td class="align-center"><%= image_tag slide.slide_image, style: 'width: 120px; height: auto;' %></td>
+      <td class="align-center">
+        <% if slide.slide_image_url %>
+          <%= image_tag slide.slide_image_url, style: 'max-width: 120px; max-height: 60px;' %>
+        <% else %>
+          -
+        <% end %>
+      </td>
       <td class="align-center"><%= link_to slide.name, object_url(slide) %></td>
-      <td class="align-center"><%= link_to slide.product.name, object_url(slide) unless slide.product_id.blank? %></td>
+      <td class="align-center">
+        <% if slide.product %>
+          <%= link_to slide.product.name, object_url(slide) unless slide.product_id.blank? %>
+        <% else %>
+          -
+        <% end %>
+      </td>
       <td class="align-center"><%= slide.published ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
+       <td class="align-center"><%= slide.slide_locations.map{|x| x.name}.join(',') %></td>
       <td data-hook="admin_slides_index_row_actions" class="actions">
         <%= link_to_edit slide, no_text: true, class: 'edit' %>
         &nbsp;
@@ -35,4 +49,3 @@
   <% end %>
   </tbody>
 </table>
-
