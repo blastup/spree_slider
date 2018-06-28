@@ -9,7 +9,7 @@ class Spree::Slide < ActiveRecord::Base
   scope :published, -> { where(published: true).order('position ASC') }
   scope :location, -> (location) { joins(:slide_locations).where('spree_slide_locations.name = ?', location) }
 
-  belongs_to :product
+  belongs_to :product, required: false, touch: true
 
   def initialize(attrs = nil)
     attrs ||= { published: true }
@@ -35,6 +35,6 @@ class Spree::Slide < ActiveRecord::Base
   end
 
   def slide_image_url
-    slide_image ? slide_image.attachment.url('original') : nil
+    slide_image ? slide_image.x_large_url : nil
   end
 end
