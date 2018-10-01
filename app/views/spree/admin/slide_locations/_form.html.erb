@@ -1,10 +1,93 @@
 <div class="row">
 
-  <div class="col-md-12">
+  <div class="col-md-6">
     <%= f.field_container :name do %>
       <%= f.label :name, t(:name) %><br>
       <%= f.text_field :name, class: "form-control fullwidth" %>
     <% end %>
   </div>
 
+  <div class="col-md-6">
+    <%= f.field_container :speed do %>
+      <%= f.label :speed, t(:speed) %><br>
+      <%= f.text_field :speed, placeholder: "integer in milliseconds i.e. 500", class: "form-control fullwidth" %>
+    <% end %>
+  </div>
+
 </div>
+
+<div class="row">
+
+  <div class="col-md-6">
+    <%= f.field_container :slides_to_scroll do %>
+      <%= f.label :slides_to_scroll, t(:slides_to_scroll) %><br>
+      <%= f.text_field :slides_to_scroll, placeholder: "integer", class: "form-control fullwidth" %>
+    <% end %>
+  </div>
+
+    <div class="col-md-6">
+    <%= f.field_container :slider_type do %>
+      <%= f.label :slider_type, t(:slider_type) %><br>
+      <%= f.select :slider_type, ['default', 'custom'], {}, id: "slider-type-select-2", class: "select2 js-filterable" %>
+    <% end %>
+  </div>
+
+</div>
+
+<div class="row <%= @slide_location.slider_type == 'default' ? 'hide' : nil %> custom-slider-type">
+  <div class="col-md-6">
+  <% selected_prototypes = @slide_location.prototypes.map {|p| p.id} %>
+    <%= label_tag(:slide_location_prototypes, Spree.t(:prototypes)) %><br>
+    <%= select_tag :slide_location_prototypes, options_for_select(Spree::Prototype.all.map {|p| [p.name, p.id]}, selected_prototypes), 
+      {:multiple => true, :class => "select2"} %>
+  </div>
+
+  <div class="col-md-6">
+    <%= label_tag(:slide_location_products, Spree.t(:products)) %><br />
+    <% products = @slide_location.products.map {|p| p.id}%>
+
+    <%= hidden_field_tag "slide_location_products", products.join(","), class: "product_picker" %>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-6">
+    <%= f.field_container :auto  do %>
+      <%= f.label :auto, t(:auto ) %><br>
+      <%= f.check_box :auto, { checked: @slide_location.auto }, "1", "0"%>
+    <% end %>
+  </div>
+
+  <div class="col-md-6">
+    <%= f.field_container :infinite  do %>
+      <%= f.label :infinite, t(:infinite ) %><br>
+      <%= f.check_box :infinite, { checked: @slide_location.infinite }, "1", "0"%>
+    <% end %>
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-6">
+    <%= f.field_container :dots  do %>
+      <%= f.label :dots, t(:dots ) %><br>
+      <%= f.check_box :dots, { checked: @slide_location.dots }, "1", "0"%>
+    <% end %>
+  </div>
+
+</div>
+
+<script>
+  $(document).ready(function () {
+    $("body").on('DOMSubtreeModified', "span.select2-chosen", function () {
+      if ($(this).html() === 'custom') {
+        $('.custom-slider-type').removeClass('hide')
+      } else {
+        $('.custom-slider-type').addClass('hide')
+      }
+    });
+  })
+</script>
