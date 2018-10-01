@@ -13,6 +13,7 @@
     <th><%= Spree.t(:name) %></th>
     <th><%= Spree.t(:product) %></th>
     <th><%= Spree.t(:published) %></th>
+    <th><%= Spree.t(:is_mobile) %></th>
     <th><%= Spree.t(:slide_locations) %></th>
     <th data-hook="admin_slides_index_header_actions" class="actions"></th>
   </tr>
@@ -39,6 +40,7 @@
         <% end %>
       </td>
       <td class="align-center"><%= slide.published ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
+      <td class="align-center"><%= slide.is_mobile ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
        <td class="align-center"><%= slide.slide_locations.map{|x| x.name}.join(',') %></td>
       <td data-hook="admin_slides_index_row_actions" class="actions">
         <%= link_to_edit slide, no_text: true, class: 'edit' %>
