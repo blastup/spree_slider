@@ -52,42 +52,45 @@ module Spree
       private
 
       def save_associated_models
-        if params.has_key? :slide_location_products
-          save_associated_products
-        end
-
-        if params.has_key? :slide_location_prototypes
-          save_associated_prototypes
-        end
+        save_associated_products
+        save_associated_prototypes
       end
 
       def save_associated_products
-        request_slide_location_products = params[:slide_location_products].split(',')
-        saved_slide_location_products = @object.products.pluck(:product_id)
-        to_destroy_slide_location_products = saved_slide_location_products - request_slide_location_products
-        to_create_slide_location_products = request_slide_location_products - saved_slide_location_products
+        if params.has_key? :slide_location_products
+          request_slide_location_products = params[:slide_location_products].split(',')
+          saved_slide_location_products = @object.products.pluck(:product_id)
+          to_destroy_slide_location_products = saved_slide_location_products - request_slide_location_products
+          to_create_slide_location_products = request_slide_location_products - saved_slide_location_products
 
-        to_destroy_slide_location_products.each do |product_id| 
-          Spree::SlideLocationProduct.where(:product_id => product_id.to_i, :slide_location_id => @object.id).destroy_all
-        end
+          to_destroy_slide_location_products.each do |product_id| 
+            Spree::SlideLocationProduct.where(:product_id => product_id.to_i, :slide_location_id => @object.id).destroy_all
+          end
 
-        to_create_slide_location_products.each do |product_id| 
-          Spree::SlideLocationProduct.create([{ :product_id => product_id.to_i, :slide_location_id => @object.id }]) 
+          to_create_slide_location_products.each do |product_id| 
+            Spree::SlideLocationProduct.create([{ :product_id => product_id.to_i, :slide_location_id => @object.id }]) 
+          end
+        else 
+          Spree::SlideLocationProduct.where(:slide_location_id => @object.id).destroy_all
         end
       end
 
       def save_associated_prototypes
-        request_slide_location_prototypes = params[:slide_location_prototypes].flatten.uniq
-        saved_slide_location_prototypes = @object.prototypes.pluck(:prototype_id)
-        to_destroy_slide_location_prototypes = saved_slide_location_prototypes - request_slide_location_prototypes
-        to_create_slide_location_prototypes = request_slide_location_prototypes - saved_slide_location_prototypes
+        if params.has_key? :slide_location_prototypes
+          request_slide_location_prototypes = params[:slide_location_prototypes].flatten.uniq
+          saved_slide_location_prototypes = @object.prototypes.pluck(:prototype_id)
+          to_destroy_slide_location_prototypes = saved_slide_location_prototypes - request_slide_location_prototypes
+          to_create_slide_location_prototypes = request_slide_location_prototypes - saved_slide_location_prototypes
 
-        to_destroy_slide_location_prototypes.each do |prototype_id| 
-          Spree::SlideLocationPrototype.where(:prototype_id => prototype_id.to_i, :slide_location_id => @object.id).destroy_all
-        end
+          to_destroy_slide_location_prototypes.each do |prototype_id| 
+            Spree::SlideLocationPrototype.where(:prototype_id => prototype_id.to_i, :slide_location_id => @object.id).destroy_all
+          end
 
-        to_create_slide_location_prototypes.each do |prototype_id| 
-          Spree::SlideLocationPrototype.create([{ :prototype_id => prototype_id.to_i, :slide_location_id => @object.id }]) 
+          to_create_slide_location_prototypes.each do |prototype_id| 
+            Spree::SlideLocationPrototype.create([{ :prototype_id => prototype_id.to_i, :slide_location_id => @object.id }]) 
+          end
+        else
+          Spree::SlideLocationPrototype.where(:slide_location_id => @object.id).destroy_all
         end
       end
     end
