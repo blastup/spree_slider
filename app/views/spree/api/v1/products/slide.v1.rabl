@@ -1,4 +1,5 @@
 node(:master){ |p| p.master }
+
 node(:badges){ |p| p.badges }
 node(:link){ |p| product_path(p) }
 node(:image){ |p| p.images.first.nil? ? "" : p.images.first.large_url }
