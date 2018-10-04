@@ -15,6 +15,7 @@ class Spree::SlideLocation < ActiveRecord::Base
   validates :dots, inclusion: { in: [ true, false ] }
   validates :infinite, inclusion: { in: [ true, false ] }
   validates :slides_to_scroll, presence: true, numericality: { only_integer: true }
+  validates :prototype_slides, numericality: { less_than_or_equal_to: 15, only_integer: true }
   validates :slider_type, presence: true, inclusion: { in: [ 'default', 'custom' ] }
 
 end

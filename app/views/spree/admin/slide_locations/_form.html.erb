@@ -49,6 +49,12 @@
     <%= hidden_field_tag "slide_location_products", products.join(","), class: "product_picker" %>
   </div>
 
+  <div class="col-md-6">
+    <br>
+    <%= label_tag(:prototype_slides, Spree.t(:prototype_slides)) %><br />
+    <%= f.select :prototype_slides, ((0..15).map {|i| [i,i] }), {}, class: "select2" %>
+  </div>
+
 </div>
 
 <div class="row">
@@ -82,7 +88,7 @@
 
 <script>
   $(document).ready(function () {
-    $("body").on('DOMSubtreeModified', "span.select2-chosen", function () {
+    $("body").on('DOMSubtreeModified', "#s2id_slider-type-select-2 span.select2-chosen", function () {
       if ($(this).html() === 'custom') {
         $('.custom-slider-type').removeClass('hide')
       } else {
