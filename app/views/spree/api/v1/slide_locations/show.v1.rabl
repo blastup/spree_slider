@@ -1,8 +1,8 @@
 attributes *Spree::SlideLocation.column_names - ["created_at", "updated_at"]
 
 if root_object.products.any?
-  child :products => :slides do
-    extends 'spree/api/v1/products/slide'
+  node :slides do
+    root_object.products.available_now.map { |p| partial('spree/api/v1/products/slide', :object => p) }
   end
 elsif root_object.prototypes.any?
 
@@ -16,7 +16,7 @@ elsif root_object.prototypes.any?
     number_of_slides_per_prototype = (number_of_slides).fdiv(number_of_prototypes).round
 
     root_object.prototypes.each do |prototype|
-      products << prototype.products.sample(number_of_slides_per_prototype)
+      products << prototype.products.available_now.sample(number_of_slides_per_prototype)
     end
 
     # root_object.prototypes.includes(:products).map(&:products).flatten
