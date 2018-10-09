@@ -1,4 +1,7 @@
 class Spree::Slide < ActiveRecord::Base
+  has_many :slide_contents, class_name: 'Spree::SlideContent'
+  has_many :contents, through: :slide_contents, class_name: 'Spree::Content'
+
   has_many :asset_assignments, :as => :viewable
   has_many :images, :source => :asset, :foreign_key => "asset_id", :through => :asset_assignments, :class_name => "Spree::Image"
 
