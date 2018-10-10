@@ -1,0 +1,15 @@
+<% content_for :slide_title do %>
+  <%= link_to Spree.t(:slides), admin_slides_path %> /
+  <%= @slide.id %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <ul class="nav nav-pills nav-stacked" data-hook="admin_slide_tabs">
+    <%= content_tag :li, class: ('active' if current == :details) do %>
+      <%= link_to_with_icon 'eye-open', Spree.t(:details), edit_admin_slide_url(@slide) %>
+    <% end if can?(:admin, Spree::Slide) %>
+    <%= content_tag :li, class: ('active' if current == :contents) do %>
+      <%= link_to_with_icon 'font', Spree.t(:contents), spree.admin_slide_contents_url(@slide) %>
+    <% end if can?(:admin, Spree::Content) %>
+  </ul>
+<% end %>

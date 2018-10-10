@@ -1,6 +1,7 @@
 Spree::Core::Engine.routes.draw do
   namespace :admin do
     resources :slides do
+      resources :contents
       collection do
         post :update_positions
       end
