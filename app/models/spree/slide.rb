@@ -12,6 +12,8 @@ class Spree::Slide < ActiveRecord::Base
   scope :published, -> { where(published: true).order('position ASC') }
   scope :location, -> (location) { joins(:slide_locations).where('spree_slide_locations.name = ?', location) }
 
+  before_destroy :destroy_associations
+
   belongs_to :product, required: false, touch: true
 
   def initialize(attrs = nil)
@@ -39,5 +41,14 @@ class Spree::Slide < ActiveRecord::Base
 
   def slide_image_url
     slide_image ? slide_image.x_large_url : nil
+  end
+
+  private
+
+  def destroy_associations
+    self.contents.each { |content| content.destroy }
+    self.asset_assignments.each { |asset_assignment| asset_assignment.destroy }
+
+    Spree::SlideSlideLocation.where(slide_id: self.id).destroy_all
   end
 end
