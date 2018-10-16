@@ -22,7 +22,7 @@ module Spree
 
           flash[:success] = flash_message_for(@object, :successfully_created)
           respond_with(@object) do |format|
-            format.html { redirect_to edit_admin_slide_path(@object) }
+            format.html { render :edit }
             format.js   { render :layout => false }
           end
         else
@@ -35,18 +35,30 @@ module Spree
       end
 
       def update
+        invoke_callbacks(:update, :before)
+        @object.attributes = permitted_resource_params
+        if @object.save
+          invoke_callbacks(:update, :after)
+
+          flash[:success] = flash_message_for(@object, :successfully_created)
+          respond_with(@object) do |format|
+            format.html { render :edit }
+            format.js   { render :layout => false }
+          end
+        else
+          invoke_callbacks(:update, :fails)
+          respond_with(@object) do |format|
+            format.html { render action: :new }
+            format.js { render layout: false }
+          end
+        end
       end
 
       protected
 
       def generate_content
-        # Blastup - When a new product is created generate associated mobile and desktop content records for each locale.
-        SpreeI18n::Config.available_locales.map do |locale| 
-          is_mobile = Spree::Content.create({locale: locale, is_mobile: true})
-          is_desktop = Spree::Content.create({locale: locale, is_mobile: false})
-          Spree::SlideContent.create({content_id: is_mobile.id, slide_id: @object.id})
-          Spree::SlideContent.create({content_id: is_desktop.id, slide_id: @object.id})
-        end
+        slide_default_content = Spree::Content.create({locale: I18n.default_locale.to_s, is_mobile: false, source_type: @object.class.name, source_id: @object.id})
+        Spree::SlideContent.create({content_id: slide_default_content.id, slide_id: @object.id})
       end
 
       private
