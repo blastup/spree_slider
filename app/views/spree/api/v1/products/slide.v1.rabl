@@ -7,9 +7,7 @@ end
 node(:link){ |p| product_path(p) }
 node(:image){ |p| p.images.first.nil? ? "" : p.images.first.large_url }
 node(:name){ |p| p.name }
-node(:slug){ |p| p.slug}
 node(:display_price){ |p| p.master.display_user_currency_price(@current_api_user) }
-node(:slug){ |p| p.slug}
 
 current_price = root_object.master.current_price(@current_api_user)
 
