@@ -1,25 +1,17 @@
-<table class="table">
-  <thead>
-    <tr data-hook="slider_locations_header">
-      <th><%= t('spree_slider_locations.title') %></th>
-    </tr>
-  </thead>
-  <tbody id='slider_locations'>
-    <tr data-hook="slider_locations_row">
-      <td>
-        <%= f.field_container :slide_location, class: ['form-group'] do %>
-          <%= f.label :slide_location_id, Spree.t(:location) %>
-          <%= f.collection_select(:slide_location_ids, Spree::SlideLocation.all, :id, :name, { include_blank: Spree.t('match_choices.none'), selected: @slide_location.present? ? @slide_location.id : nil }, { class: 'select2', disabled: (cannot? :edit, Spree::SlideLocation) }) %>
-          <%= f.error_message_on :slide_location %>
-        <% end %>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="col-md-6">
+  <% selected_slide_locations = @slide.slide_locations.map {|sl| sl.id} %>
+  <%= label_tag(:slide_locations, Spree.t(:slide_locations)) %><br>
+  <%#= select_tag :slide_locations_ids, options_for_select(Spree::SlideLocation.all.map {|sl| [sl.name, sl.id]}, selected_slide_locations), 
+    {:multiple => true, :class => "select2", disabled: (cannot? :edit, Spree::SlideLocation)} %>
+    <%#= f.error_message_on :slide_location %>
+    <%= f.collection_select(:slide_location_ids, Spree::SlideLocation.all, :id, :name, { include_blank: Spree.t('match_choices.none'), selected: selected_slide_locations }, { multiple: true, class: 'select2', disabled: (cannot? :edit, Spree::SlideLocation) }) %>
+    <%= f.error_message_on :slide_location %>
 
-<%= button_link_to t('spree_slider_locations.new_location'), 'javascript:;', {
-      icon: 'add', 
-      :'data-target' => 'tbody#slider_locations', 
-      class: 'btn-success spree_add_fields' 
-} %>
-<br/><br/>
+  <br/>
+  <%= button_link_to t('spree_slider_locations.new_location'), 'javascript:;', {
+        icon: 'add', 
+        :'data-target' => 'tbody#slider_locations', 
+        class: 'btn-success spree_add_fields' 
+  } %>
+</div>
+

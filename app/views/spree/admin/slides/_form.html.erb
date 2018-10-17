@@ -27,22 +27,11 @@
     <% end %>
   </div>
 
-  <div class="col-md-6">
-    <div class="field checkbox">
-      <%= render 'spree/admin/slides/edit_slider_locations', f: f %>
-    </div>
-  </div>
+  <%= render 'spree/admin/slides/edit_slider_locations', f: f %>
 
   <!-- Blastup - media_select_field is defined in spree_media_admin -->
 
   <div class="col-md-6">
-    <%= f.field_container :image_ids do %>
-      <%= f.label :images %>
-      <%= media_select_field(f, :image_ids) %>
-    <% end %>
-  </div>
-
-    <div class="col-md-6">
     <div class="field checkbox">
       <label>
         <%= f.check_box :published %>
@@ -52,4 +41,13 @@
   </div>
 
 
+</div>
+
+<div class="row">
+  <div class="col-md-6">
+    <%= f.field_container :image_ids do %>
+      <%= f.label :images %>
+      <%= media_select_field(f, :image_ids) %>
+    <% end %>
+  </div>
 </div>
