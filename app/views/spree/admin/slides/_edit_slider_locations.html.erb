@@ -9,7 +9,7 @@
       <td>
         <%= f.field_container :slide_location, class: ['form-group'] do %>
           <%= f.label :slide_location_id, Spree.t(:location) %>
-          <%= f.collection_select(:slide_location_ids, Spree::SlideLocation.all, :id, :name, { include_blank: Spree.t('match_choices.none') }, { class: 'select2', disabled: (cannot? :edit, Spree::SlideLocation) }) %>
+          <%= f.collection_select(:slide_location_ids, Spree::SlideLocation.all, :id, :name, { include_blank: Spree.t('match_choices.none'), selected: @slide_location.present? ? @slide_location.id : nil }, { class: 'select2', disabled: (cannot? :edit, Spree::SlideLocation) }) %>
           <%= f.error_message_on :slide_location %>
         <% end %>
       </td>
@@ -17,7 +17,6 @@
   </tbody>
 </table>
 
-<%#= link_to_add_fields t('spree_slider_locations.new_location'), "tbody#slider_locations" %>
 <%= button_link_to t('spree_slider_locations.new_location'), 'javascript:;', {
       icon: 'add', 
       :'data-target' => 'tbody#slider_locations', 

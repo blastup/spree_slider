@@ -3,7 +3,12 @@
 <% end %>
 
 <% content_for :page_actions do %>
-  <%= button_link_to t('spree_slider.new_slide'), new_object_url, { class: 'btn-success', icon: 'add', id: 'admin_new_slide_link' } %>
+  <% if @slide_location.present? %>
+    <%= button_link_to t('spree_slider.new_slide'), new_object_url({slide_location_id: @slide_location.id}), { class: 'btn-success', icon: 'add', id: 'admin_new_slide_link' } %>
+  <% else %>
+    <%= button_link_to t('spree_slider.new_slide'), new_object_url, { class: 'btn-success', icon: 'add', id: 'admin_new_slide_link' } %>
+  <% end %>
+
 <% end %>
 
 <table class="table sortable" id="listing_slides" data-hook data-sortable-link="<%= update_positions_admin_slides_url %>" >

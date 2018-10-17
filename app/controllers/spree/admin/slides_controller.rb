@@ -1,14 +1,17 @@
 module Spree
   module Admin
     class SlidesController < ResourceController
+
       after_action :generate_content, :only => [:create]
-      respond_to :html
+      before_action :assign_slide_location, :only => [:new]
 
       def index
-        @slides = Spree::Slide.order(:position)
-      end
-
-      def new
+        if params.has_key? (:slide_location_id)
+          @slide_location = Spree::SlideLocation.find(params[:slide_location_id])
+          @slides = @slide_location.slides.order(:position)
+        else
+          @slides = Spree::Slide.order(:position)
+        end
       end
 
       def edit
@@ -68,6 +71,12 @@ module Spree
           edit_admin_slide_url(@slide)
         else
           admin_slides_url
+        end
+      end
+
+      def assign_slide_location
+        if params.has_key? (:slide_location_id)
+          @slide_location = Spree::SlideLocation.find(params[:slide_location_id])
         end
       end
 
