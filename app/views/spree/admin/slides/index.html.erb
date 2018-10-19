@@ -29,13 +29,6 @@
       <td class="no-border">
         <span class="handle"></span>
       </td>
-      <td class="align-center">
-        <% if slide.slide_image_url %>
-          <%= image_tag slide.slide_image_url, style: 'max-width: 120px; max-height: 60px;' %>
-        <% else %>
-          -
-        <% end %>
-      </td>
       <td class="align-center"><%= link_to slide.name, object_url(slide) %></td>
       <td class="align-center">
         <% if slide.product %>

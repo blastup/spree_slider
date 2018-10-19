@@ -2,9 +2,6 @@ class Spree::Slide < ActiveRecord::Base
   has_many :slide_contents, class_name: 'Spree::SlideContent'
   has_many :contents, through: :slide_contents, class_name: 'Spree::Content'
 
-  has_many :asset_assignments, :as => :viewable
-  has_many :images, :source => :asset, :foreign_key => "asset_id", :through => :asset_assignments, :class_name => "Spree::Image"
-
   has_and_belongs_to_many :slide_locations,
                           class_name: 'Spree::SlideLocation',
                           join_table: 'spree_slide_slide_locations'
@@ -27,20 +24,6 @@ class Spree::Slide < ActiveRecord::Base
 
   def slide_link
     link_url.blank? && product.present? ? product : link_url
-  end
-
-  def slide_image
-    slide_image = self.images.first
-    image = nil
-    if product.present? && product.images.any?
-      image = product.images.first
-    elsif slide_image
-      image = slide_image
-    end
-  end
-
-  def slide_image_url
-    slide_image ? slide_image.x_large_url : nil
   end
 
   private

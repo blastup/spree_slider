@@ -47,25 +47,6 @@ Example usage:
   <%= render partial: 'spree/shared/slider', locals: { slider: Spree::Slide.published, cid: 'home', interval: false } %>
 ```
 
-If you desire to have a customized carousel template you can specify your own like so:
-
-```erb
-<% if Spree::Slide.published.count > 0 %>
-  <section id="slideshow">
-    <ul class="slide">
-      <% Spree::Slide.published.order('position ASC').each do |s| %>
-        <li>
-          <h1><%= s.slide_name %></h1>
-          <%= link_to image_tag(s.slide_image.url), url_for(s.link_url) %>
-        </li>
-      <% end %>
-    </ul>
-    <a title="<%= t(:previous) %>" class="slider-prev"><%= t(:previous)%></a>
-    <a title="<%= t(:next) %>" class="slider-next"><%= t(:next) %></a>
-  </section>
-<% end %>
-```
-
 ## Dynamic content management
 
 To add dynamic content, go to the spree admin section, under 'Configuration'

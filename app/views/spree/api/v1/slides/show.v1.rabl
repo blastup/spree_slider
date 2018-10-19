@@ -9,7 +9,3 @@ if !root_object.product_id.nil?
     extends 'spree/api/v1/products/slide'
   end
 end
-
-child(images: :images) do
-  extends 'spree/api/v1/images/show'
-end
