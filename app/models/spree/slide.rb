@@ -30,7 +30,6 @@ class Spree::Slide < ActiveRecord::Base
 
   def destroy_associations
     self.contents.each { |content| content.destroy }
-    self.asset_assignments.each { |asset_assignment| asset_assignment.destroy }
 
     Spree::SlideSlideLocation.where(slide_id: self.id).destroy_all
   end
