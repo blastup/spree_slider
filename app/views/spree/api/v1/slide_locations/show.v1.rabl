@@ -15,7 +15,7 @@ elsif root_object.taxons.any?
     # The first 11 out the 12 in the constructed array will be sent to client.
     number_of_slides_per_taxon = (number_of_slides).fdiv(number_of_taxons).round
 
-    root_object.ptaxons.each do |taxon|
+    root_object.taxons.each do |taxon|
       products << taxon.products.available_now.sample(number_of_slides_per_taxon)
     end
 
