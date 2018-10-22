@@ -52,45 +52,65 @@ module Spree
       private
 
       def save_associated_models
-        save_associated_products
-        save_associated_prototypes
-      end
-
-      def save_associated_products
         if params.has_key? :slide_location_products
-          request_slide_location_products = params[:slide_location_products].split(',')
-          saved_slide_location_products = @object.products.pluck(:product_id)
-          to_destroy_slide_location_products = saved_slide_location_products - request_slide_location_products
-          to_create_slide_location_products = request_slide_location_products - saved_slide_location_products
-
-          to_destroy_slide_location_products.each do |product_id| 
-            Spree::SlideLocationProduct.where(:product_id => product_id.to_i, :slide_location_id => @object.id).destroy_all
-          end
-
-          to_create_slide_location_products.each do |product_id| 
-            Spree::SlideLocationProduct.create([{ :product_id => product_id.to_i, :slide_location_id => @object.id }]) 
-          end
-        else 
+          save_associated_product_slides
+        else
           Spree::SlideLocationProduct.where(:slide_location_id => @object.id).destroy_all
+        end
+
+        if params.has_key? :slide_location_taxons
+          save_associated_taxon_product_slides
+        else
+          Spree::SlideLocationTaxon.where(:slide_location_id => @object.id).destroy_all
+        end
+
+        if params.has_key? :taxon_locations
+          save_slide_location_to_taxons
+        else
+          Spree::Taxon.where(slide_location_id: @object.id).update(slide_location_id: nil)
         end
       end
 
-      def save_associated_prototypes
-        if params.has_key? :slide_location_prototypes
-          request_slide_location_prototypes = params[:slide_location_prototypes].flatten.uniq
-          saved_slide_location_prototypes = @object.prototypes.pluck(:prototype_id)
-          to_destroy_slide_location_prototypes = saved_slide_location_prototypes - request_slide_location_prototypes
-          to_create_slide_location_prototypes = request_slide_location_prototypes - saved_slide_location_prototypes
+      def save_associated_product_slides
+        request_product_slides = params[:slide_location_products].split(',')
+        saved_slide_location_products = @object.products.pluck(:product_id)
+        to_destroy_slide_location_products = saved_slide_location_products - request_product_slides
+        to_create_slide_location_products = request_product_slides - saved_slide_location_products
 
-          to_destroy_slide_location_prototypes.each do |prototype_id| 
-            Spree::SlideLocationPrototype.where(:prototype_id => prototype_id.to_i, :slide_location_id => @object.id).destroy_all
-          end
+        to_destroy_slide_location_products.each do |product_id|
+          Spree::SlideLocationProduct.where(:product_id => product_id, :slide_location_id => @object.id).destroy_all
+        end
 
-          to_create_slide_location_prototypes.each do |prototype_id| 
-            Spree::SlideLocationPrototype.create([{ :prototype_id => prototype_id.to_i, :slide_location_id => @object.id }]) 
-          end
-        else
-          Spree::SlideLocationPrototype.where(:slide_location_id => @object.id).destroy_all
+        to_create_slide_location_products.each do |product_id|
+          Spree::SlideLocationProduct.create([{:product_id => product_id, :slide_location_id => @object.id }]) 
+        end
+      end
+
+      def save_associated_taxon_product_slides  
+        request_slide_location_taxons = params[:slide_location_taxons].flatten.uniq
+        saved_slide_location_taxons = @object.taxons.pluck(:taxon_id)
+        to_destroy_slide_location_taxons = saved_slide_location_taxons - request_slide_location_taxons
+        to_create_slide_location_taxons = request_slide_location_taxons - saved_slide_location_taxons
+
+        to_destroy_slide_location_taxons.each do |taxon_id| 
+          Spree::SlideLocationTaxon.where(:taxon_id => taxon_id, :slide_location_id => @object.id).destroy_all
+        end
+
+        to_create_slide_location_taxons.each do |taxon_id| 
+          Spree::SlideLocationTaxon.create([{:taxon_id => taxon_id, :slide_location_id => @object.id }]) 
+        end
+      end
+
+      def save_slide_location_to_taxons  
+        request_slide_location_to_taxons = params[:taxon_locations].flatten.uniq
+        saved_taxon_slide_locations = Spree::Taxon.where(slide_location_id: @object.id).pluck(:id)
+        unassign_slide_location_from_taxons = saved_taxon_slide_locations - request_slide_location_to_taxons
+        assign_slide_location_to_taxons = request_slide_location_to_taxons - saved_taxon_slide_locations
+
+        Spree::Taxon.where(id: unassign_slide_location_from_taxons).update(slide_location_id: nil)
+
+        assign_slide_location_to_taxons.each do |taxon_id| 
+          Spree::Taxon.find(taxon_id).update(slide_location_id: @object.id)
         end
       end
     end
