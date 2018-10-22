@@ -36,9 +36,10 @@
 
 <div class="row <%= @slide_location.slider_type == 'default' ? 'hide' : nil %> custom-slider-type">
   <div class="col-md-6">
-  <% selected_prototypes = @slide_location.prototypes.map {|p| p.id} %>
-    <%= label_tag(:slide_location_prototypes, Spree.t(:prototypes)) %><br>
-    <%= select_tag :slide_location_prototypes, options_for_select(Spree::Prototype.all.map {|p| [p.name, p.id]}, selected_prototypes), 
+    <% selected_taxons = @slide_location.taxons.map {|p| p.id} %>
+    <%= label_tag(:slide_location_taxons, Spree.t(:taxon_products)) %><br>
+    <% products_category_taxonomy_id = Spree::ExtraSetting.where(:key => "products_category_taxonomy_id").first.value.to_i %>
+    <%= select_tag :slide_location_taxons, options_for_select(Spree::Taxon.where(taxonomy_id: products_category_taxonomy_id).map {|p| [p.name, p.id]}, selected_taxons), 
       {:multiple => true, :class => "select2"} %>
   </div>
 
@@ -51,8 +52,17 @@
 
   <div class="col-md-6">
     <br>
-    <%= label_tag(:prototype_slides, Spree.t(:prototype_slides)) %><br />
-    <%= f.select :prototype_slides, ((0..15).map {|i| [i,i] }), {}, class: "select2" %>
+    <%= label_tag(:taxon_slides, Spree.t(:taxon_slides)) %><br />
+    <%= f.select :taxon_slides, ((0..15).map {|i| [i,i] }), {}, class: "select2" %>
+  </div>
+
+  <div class="col-md-6">
+    <br>
+    <% selected_taxon_locations = Spree::Taxon.where(slide_location_id: @slide_location.id).pluck(:id) %>
+    <%= label_tag(:taxon_locations, Spree.t(:taxon_locations)) %><br>
+    <% products_category_taxonomy_id = Spree::ExtraSetting.where(:key => "products_category_taxonomy_id").first.value.to_i %>
+    <%= select_tag :taxon_locations, options_for_select(Spree::Taxon.where(taxonomy_id: products_category_taxonomy_id).map {|p| [p.name, p.id]}, selected_taxon_locations), 
+      {:multiple => true, :class => "select2"} %>
   </div>
 
 </div>
