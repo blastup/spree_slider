@@ -58,7 +58,7 @@
 
   <div class="col-md-6">
     <br>
-    <% selected_taxon_locations = Spree::Taxon.where(slide_location_id: @slide_location.id).pluck(:id) %>
+    <% selected_taxon_locations = @slide_location.id ? Spree::Taxon.where(slide_location_id: @slide_location.id).pluck(:id) : nil %>
     <%= label_tag(:taxon_locations, Spree.t(:taxon_locations)) %><br>
     <% products_category_taxonomy_id = Spree::ExtraSetting.where(:key => "products_category_taxonomy_id").first.value.to_i %>
     <%= select_tag :taxon_locations, options_for_select(Spree::Taxon.where(taxonomy_id: products_category_taxonomy_id).map {|p| [p.name, p.id]}, selected_taxon_locations), 
