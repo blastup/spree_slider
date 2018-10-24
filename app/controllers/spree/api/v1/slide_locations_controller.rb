@@ -9,7 +9,7 @@ module Spree
           else
             # Blastup - Partial Refactor
             # Respond only with the slide_locations that are selected.
-            keys_to_select = ["product_list_top_slide_location_id", "product_page_top_slide_location_id", "login_slider_location_id"]
+            keys_to_select = ["product_list_top_slide_location_id", "product_page_top_slide_location_id", "login_slider_location_id", "top_footer_area_id"]
             selected_slide_locations = Spree::ExtraSetting.where(key: keys_to_select).pluck(:value).uniq
             @slide_locations = Spree::SlideLocation.where(id: selected_slide_locations).order(:name)
           end
