@@ -1,9 +1,10 @@
 <div class="col-md-6">
-  <% selected_slide_locations = @slide.slide_locations.map {|sl| sl.id} %>
+  <% if current_page?(action: 'new') %>
+    <% selected_slide_locations = @slide_location.present? ? @slide_location.id : nil %>
+  <% else %>
+    <% selected_slide_locations = @slide.slide_locations.map {|sl| sl.id} %>
+  <% end %>
   <%= label_tag(:slide_locations, Spree.t(:slide_locations)) %><br>
-  <%#= select_tag :slide_locations_ids, options_for_select(Spree::SlideLocation.all.map {|sl| [sl.name, sl.id]}, selected_slide_locations), 
-    {:multiple => true, :class => "select2", disabled: (cannot? :edit, Spree::SlideLocation)} %>
-    <%#= f.error_message_on :slide_location %>
     <%= f.collection_select(:slide_location_ids, Spree::SlideLocation.all, :id, :name, { include_blank: Spree.t('match_choices.none'), selected: selected_slide_locations }, { multiple: true, class: 'select2', disabled: (cannot? :edit, Spree::SlideLocation) }) %>
     <%= f.error_message_on :slide_location %>
 

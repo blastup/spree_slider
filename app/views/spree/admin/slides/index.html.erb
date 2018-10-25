@@ -14,7 +14,7 @@
 <table class="table sortable" id="listing_slides" data-hook data-sortable-link="<%= update_positions_admin_slides_url %>" >
   <thead>
   <tr data-hook="admin_slides_index_headers">
-    <th colspan="2"><%= Spree.t(:image) %></th>
+    <th><%= Spree.t(:image) %></th>
     <th><%= Spree.t(:name) %></th>
     <th><%= Spree.t(:product) %></th>
     <th><%= Spree.t(:published) %></th>
@@ -37,7 +37,7 @@
         <% end %>
       </td>
       <td class="align-center"><%= slide.published ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
-       <td class="align-center"><%= slide.slide_locations.map{|x| x.name}.join(',') %></td>
+      <td class="align-center"><%= slide.slide_locations.map{|x| x.name}.join(',') %></td>
       <td data-hook="admin_slides_index_row_actions" class="actions">
         <%= link_to_edit slide, no_text: true, class: 'edit' %>
         &nbsp;
