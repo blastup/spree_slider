@@ -68,7 +68,16 @@
 </div>
 
 <div class="row">
+  <div class="col-md-6">
+    <%= f.field_container :slides_to_show do %>
+      <%= f.label :slides_to_show, t(:slides_to_show) %><br>
+      <%= f.text_field :slides_to_show, placeholder: "integer", class: "form-control fullwidth" %>
+    <% end %>
+  </div>
 
+</div>
+
+<div class="row">
   <div class="col-md-6">
     <%= f.field_container :auto  do %>
       <%= f.label :auto, t(:auto ) %><br>
@@ -82,10 +91,6 @@
       <%= f.check_box :infinite, { checked: @slide_location.infinite }, "1", "0"%>
     <% end %>
   </div>
-
-</div>
-
-<div class="row">
 
   <div class="col-md-6">
     <%= f.field_container :dots  do %>
