@@ -2,7 +2,6 @@ class CreateSlides < ActiveRecord::Migration
   def change
     create_table :spree_slides do |t|
       t.string :name
-      t.string :link_url
       t.boolean :published
       t.string :image_file_name
       t.string :image_content_type

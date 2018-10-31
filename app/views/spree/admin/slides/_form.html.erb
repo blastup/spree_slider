@@ -7,13 +7,6 @@
   </div>
 
   <div class="col-md-6">
-    <%= f.field_container :link_url do %>
-      <%= f.label :link_url, t(:link_url) %><br>
-      <%= f.text_field :link_url, class: 'fullwidth form-control', placeholder: t('spree_slider.placeholder_link_url') %>
-    <% end %>
-  </div>
-
-  <div class="col-md-6">
     <%= f.field_container :position do %>
       <%= f.label :position, t(:position) %>
       <%= f.number_field :position, class: 'fullwidth form-control' %>
