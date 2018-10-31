@@ -22,10 +22,6 @@ class Spree::Slide < ActiveRecord::Base
     name.blank? && product.present? ? product.name : name
   end
 
-  def slide_link
-    link_url.blank? && product.present? ? product : link_url
-  end
-
   private
 
   def destroy_associations
