@@ -18,6 +18,8 @@ class Spree::SlideLocation < ActiveRecord::Base
   validates :taxon_slides, numericality: { less_than_or_equal_to: 15, only_integer: true }
   validates :slider_type, presence: true, inclusion: { in: [ 'default', 'custom' ] }
 
+  scope :active, -> { where(active: true) }
+
   def assign_slide(slide)
     Spree::SlideSlideLocation.create(slide_id: slide.id, slide_location_id: self.id) unless has_slide?(slide)
   end
