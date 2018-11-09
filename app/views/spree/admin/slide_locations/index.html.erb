@@ -11,6 +11,7 @@
     <tr data-hook="admin_slides_index_headers">
       <th><%= Spree.t(:name) %></th>
       <th><%= Spree.t(:shortcode) %></th>
+      <th><%= Spree.t(:active) %></th>
       <th data-hook="admin_slides_index_header_actions" class="actions"></th>
     </tr>
   </thead>
@@ -19,6 +20,7 @@
     <tr>
       <td class="align-center"><%= location.name %></td>
       <td class="align-center in-table-shortcode"><span>[slider id="<%=location.id%>"]</span></td>
+      <td class="align-center"><%= location.active ? Spree.t(:say_yes) : Spree.t(:say_no) %></td>
       <td data-hook="admin_slide_locations_index_row_actions" class="actions">
         <%= link_to_edit location, no_text: true, class: 'edit' %>
         &nbsp;
